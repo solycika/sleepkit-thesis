@@ -1,0 +1,33 @@
+[Unit]
+Description=SleepKit MQTT Sync Service
+Documentation=https://github.com/sleepkit
+After=network-online.target sleepkit-collector.service
+Wants=network-online.target
+Requires=sleepkit-collector.service
+
+[Service]
+Type=simple
+User=monika
+Group=monika
+WorkingDirectory=/opt/sleepkit
+ExecStart=/opt/sleepkit/venv/bin/python3 /opt/sleepkit/src/sync_mqtt.py
+Restart=on-failure
+RestartSec=15
+TimeoutStopSec=10
+
+# Umgebung
+Environment=PYTHONUNBUFFERED=1
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=sleepkit-mqtt-sync
+
+# Sicherheit
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/opt/sleepkit/data /opt/sleepkit/logs
+ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target

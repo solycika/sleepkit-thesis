@@ -1,0 +1,35 @@
+[Unit]
+Description=SleepKit Sensor Collector Daemon
+Documentation=https://github.com/sleepkit
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=monika
+Group=monika
+WorkingDirectory=/opt/sleepkit
+ExecStart=/opt/sleepkit/venv/bin/python3 /opt/sleepkit/src/collector.py
+Restart=on-failure
+RestartSec=10
+TimeoutStopSec=15
+
+# Umgebung
+Environment=PYTHONUNBUFFERED=1
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=sleepkit-collector
+
+# Sicherheit
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/opt/sleepkit/data /opt/sleepkit/logs
+ProtectHome=true
+
+# Gerätezugriff (I2C, UART, Audio)
+SupplementaryGroups=i2c spi gpio dialout audio
+
+[Install]
+WantedBy=multi-user.target

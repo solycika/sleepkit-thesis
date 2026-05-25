@@ -1,0 +1,30 @@
+[Unit]
+Description=SleepKit MQTT-to-PostgreSQL Bridge
+Documentation=https://github.com/sleepkit
+After=network.target mosquitto.service postgresql.service
+Wants=mosquitto.service postgresql.service
+
+[Service]
+Type=simple
+User=sleepkit
+Group=sleepkit
+WorkingDirectory=/opt/sleepkit-api
+ExecStart=/opt/sleepkit-api/venv/bin/python3 /opt/sleepkit-api/mqtt_bridge.py
+Restart=on-failure
+RestartSec=10
+TimeoutStopSec=10
+
+Environment=PYTHONUNBUFFERED=1
+Environment=SLEEPKIT_CONFIG=/opt/sleepkit-api/config.yaml
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=sleepkit-mqtt-bridge
+
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/var/log/sleepkit
+ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target
