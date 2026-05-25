@@ -1,0 +1,41 @@
+# ── Secrets / echte Konfigurationsdateien (NIE committen) ──
+# Diese liegen nur auf dem Pi (mqtt.yaml) und auf der EC2 (api_config.yaml)
+*.yaml
+*.yml
+config/
+api_config.yaml
+mqtt.yaml
+
+# ── Datenbanken & Studiendaten ──
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+
+# ── Zertifikate / Schlüssel ──
+*.pem
+*.key
+*.crt
+*.csr
+
+# ── Logs ──
+*.log
+logs/
+
+# ── Python ──
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+*.egg-info/
+
+# ── macOS / Editoren ──
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*~
